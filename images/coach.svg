@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="750" viewBox="0 0 600 750">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f5f5f5"/>
+      <stop offset="100%" style="stop-color:#e8e8e8"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="750" fill="url(#bg)" rx="12"/>
+  <!-- Silhouette coach -->
+  <g fill="#cccccc">
+    <!-- tête -->
+    <circle cx="300" cy="200" r="80"/>
+    <!-- épaules / corps -->
+    <path d="M160 340 Q180 290 220 280 Q260 270 300 275 Q340 270 380 280 Q420 290 440 340 L460 520 L140 520 Z"/>
+    <!-- jambes -->
+    <rect x="175" y="510" width="90" height="180" rx="8"/>
+    <rect x="335" y="510" width="90" height="180" rx="8"/>
+  </g>
+  <!-- Badge orange -->
+  <rect x="180" y="630" width="240" height="44" rx="22" fill="#FF6B00" opacity="0.9"/>
+  <text x="300" y="658" text-anchor="middle" font-family="Arial, sans-serif" font-size="15" fill="white" font-weight="bold">📷 Photo du coach</text>
+  <!-- Hint -->
+  <text x="300" y="710" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#aaaaaa">Remplacez par coach.jpg (600×750px)</text>
+</svg>
