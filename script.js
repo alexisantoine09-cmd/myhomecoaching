@@ -149,8 +149,15 @@ taxToggle.addEventListener('change', () => {
 });
 
 /* ------------------------------------------------------------
-   7. FORMULAIRE DE CONTACT — validation côté client
------------------------------------------------------------- */
+   7. FORMULAIRE DE CONTACT — validation + envoi via Formspree
+   ============================================================
+   CONFIGURATION REQUISE :
+   Remplacez "YOUR_FORM_ID" ci-dessous par votre identifiant
+   Formspree (récupéré sur https://formspree.io après création
+   de votre formulaire). Exemple : 'https://formspree.io/f/xrgeoqng'
+   ============================================================ */
+const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xpqbqbeg';
+
 const contactForm = document.getElementById('contact-form');
 const formSuccess = document.getElementById('form-success');
 const resetBtn    = document.getElementById('reset-form');
@@ -235,7 +242,7 @@ contactForm.addEventListener('submit', function (e) {
     return;
   }
 
-  // Simulation d'envoi (remplacez par un vrai appel fetch/API)
+  // Envoi réel via Formspree
   const submitBtn = contactForm.querySelector('.btn-submit');
   const btnText   = submitBtn.querySelector('.btn-text');
   const btnLoad   = submitBtn.querySelector('.btn-loading');
@@ -244,14 +251,35 @@ contactForm.addEventListener('submit', function (e) {
   btnText.style.display = 'none';
   btnLoad.style.display = 'inline';
 
-  setTimeout(() => {
-    contactForm.style.display  = 'none';
-    formSuccess.style.display  = 'block';
-    formSuccess.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    submitBtn.disabled = false;
-    btnText.style.display = 'inline';
-    btnLoad.style.display = 'none';
-  }, 1200);
+  const formData = new FormData(contactForm);
+
+  fetch(FORMSPREE_ENDPOINT, {
+    method: 'POST',
+    body: formData,
+    headers: { 'Accept': 'application/json' }
+  })
+    .then(response => {
+      if (response.ok) {
+        contactForm.style.display  = 'none';
+        formSuccess.style.display  = 'block';
+        formSuccess.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      } else {
+        return response.json().then(data => {
+          const msg = (data && data.errors && data.errors.length)
+            ? data.errors.map(e => e.message).join('\n')
+            : 'Une erreur est survenue lors de l\'envoi.';
+          alert(msg + '\n\nVous pouvez aussi nous écrire directement à myalexispt@gmail.com');
+        });
+      }
+    })
+    .catch(() => {
+      alert('Erreur réseau. Vérifiez votre connexion et réessayez, ou écrivez-nous directement à myalexispt@gmail.com');
+    })
+    .finally(() => {
+      submitBtn.disabled = false;
+      btnText.style.display = 'inline';
+      btnLoad.style.display = 'none';
+    });
 });
 
 // Réinitialiser le formulaire
